@@ -12,17 +12,23 @@ class IController
     private $dbHandler;
       
     public function __construct( $dbHandler, $tblName, $modelClassName  )
-    {     
-        if(( $dbHandler )&&( $tblName ))
+    {  
+        $dbCon = $dbHandler ;
+        if(!$dbCon)
         {
-            $this->dbHandler = $dbHandler;
+            $myApp = new App();
+            $dbCon = new Connection( $myApp->getDbName() );
+        }   
+        if(( $dbCon )&&( $tblName ))
+        {
+            $this->dbHandler = $dbCon;
             $this->tblName = strtolower($tblName);
             $this->modelClassName = $modelClassName ;
         }
         else
         {
             // TODO:?? get from DI Injector
-            $errorMsg = "Controller __construct got a faulty dbHandler: " . dbHandler . "or table name: " . $tblName;
+            $errorMsg = "IController __construct got a faulty dbHandler: " . dbHandler . "or table name: " . $tblName;
             Notify::log( $errorMsg );
             throw new Exception( $errorMsg );   
         }      
@@ -60,9 +66,9 @@ class IController
 
     public function Read( $paramArr )
     {
-        if(count($paramArr)==0)
+        if($paramArr['id']==-1)
         {
-            return $this->getAll("statement") ;
+            return $this->getAll("array") ;
         }
 
         try
@@ -79,16 +85,34 @@ class IController
             }
             else
             {
-                Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
+                return false;
             }
 
         }
-        catch(PDOException  $e )
-        {
-            notify::Error( $e->getMessage() );
-            Die(); //TODO: Restart app
+        catch (PDOException $e)
+        { // catch pdo errors
+            echo "IController->Read  failed.<br>".$e->getMessage();
+        }catch (Exception $e)
+        { // catch general errors
+            echo "IController->Read  failed failed.<br>".$e->getMessage();
         }
 
+    }
+
+    public function getById($id) 
+    {
+        try
+        {
+            return $this->Read(['id'=>$id]);
+
+        }
+        catch (PDOException $e)
+        { // catch pdo errors
+            echo "IController->getById:".$id." failed.<br>".$e->getMessage();
+        }catch (Exception $e)
+        { // catch general errors
+            echo "IController->getById:".$id." failed.<br>".$e->getMessage();
+        }
     }
     
     public function getAll($arrOrStatement) 
@@ -100,7 +124,7 @@ class IController
             {   
                 if($arrOrStatement == "array")             
                 {
-                    $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS , $this->modelClassName );
+                    $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $this->modelClassName );
                     return $allObjArr;
                 }
                 else if($arrOrStatement == "statement")
@@ -118,10 +142,12 @@ class IController
             }
 
         }
-        catch(PDOException  $e )
-        {
-            notify::Error( $e->getMessage() );
-            Die(); //TODO: Restart app
+        catch (PDOException $e)
+        { // catch pdo errors
+            echo "IController->getAll failed.<br>".$e->getMessage();
+        }catch (Exception $e)
+        { // catch general errors
+            echo "IController->getAll failed.<br>".$e->getMessage();
         }
     }
 
@@ -175,6 +201,17 @@ class IController
 
     }
 
+    // protected functions can only be called from an extending class
+    protected function getDbHandler()
+    {
+        return $this->dbHandler;
+    }
+
+    protected function getTblName()
+    {
+        return $this->tblName;
+    }
+    
 }
 
 

@@ -14,9 +14,13 @@ class ManufacturerModel extends IModel
     {
         $this->id = $id;
         $this->name = $name;
-        
-
        
+    }
+
+    public function jsonSerialize() {
+       
+        return ["id" => $this->id,
+                "name" => $this->name];
     }
 
     public function getDataModel()

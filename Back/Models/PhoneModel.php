@@ -19,13 +19,20 @@ class PhoneModel extends IModel
        
     }
 
+    public function jsonSerialize() {
+        
+        return ["id" => $this->id,
+                "name" => $this->name,
+                "img_name" => $this->img_name,
+                "manufacturer_id" => $this->manufacturer_id];
+    }
+
     public function getDataModel()
     {
         return  [  "id" => $this->id,
                     "name" => $this->name,
                     "img_name" => $this->img_name,
                     "manufacturer_id" => $this->manufacturer_id];
-
     }
 
     public function getId()

@@ -1,11 +1,13 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-
-
-
-
 $debugMode = true;
+
+/*  
+    DAL - PDO db Connection
+    responsible for all db actions
+*/
+
 
 class Connection
 {
@@ -36,13 +38,9 @@ class Connection
         $this->password= $password;
         $this->charset = $charset;
         $this->opt     = $opt;
-        
-    
         $this->dsn = "mysql:host=" . $host . ";dbname=" . $dbName . ";charset=" . $charset;
         
-        $this->connect(); 
-        
-            
+        $this->connect();      
     }
 
     private function connect()
@@ -51,102 +49,101 @@ class Connection
         {
             if(!$this->dbConnection)
             {
-                try
-                {
+                try{ // establish a connection to db
                     $this->dbConnection = new PDO( $this->dsn, $this->user, $this->password, $this->opt );
                 }
                 catch( PDOException $e) 
                 {
+                    // if db doesnt exist
                     if((strpos($e->getMessage(), 'SQLSTATE[HY000] [1049] Unknown database') !== false) )
                     {
                         $this->dbConnection = $this->createDb();       
                     }    
                     else
                     {
-                        return null;
+                        echo "DB ERROR: Connection failed.<br>".$e->getMessage();
                     }       
                 }
             }
-                
             // this is required to see hebrew 
             $this->dbConnection->exec("SET NAMES 'utf8'");
 
+            // return the connection that was just established
             return $this->dbConnection;
             
-        }catch( PDOException $e) 
-        {
-            die("DB ERROR: ". $e->getMessage());
-            
+        }catch (PDOException $e)
+        { // catch pdo errors
+            echo "DB ERROR: Connection failed.<br>".$e->getMessage();
+        }catch (Exception $e)
+        { // catch general errors
+            echo "General Error: DB Connection failed.<br>".$e->getMessage();
         }
-        
     }
 
-    private function createDb()
+
+    private function createDb() // if db doesnt exist (TODO: add generic tbl create)
     {
         try 
         {
-            
             $dbh = new PDO( "mysql:host=$this->host", 
                             $this->user, 
                             $this->password, 
                             array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="NO_AUTO_VALUE_ON_ZERO"',
                                   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ) );
    
-                                  $dbh->exec("SET NAMES 'utf8';");
-            $dbh->exec("CREATE DATABASE  IF NOT EXISTS `$this->dbName`  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-                    CREATE USER '$this->user'@'localhost' IDENTIFIED BY '$this->password';
-                    GRANT ALL ON `$this->dbName`.* TO '$this->user'@'localhost';
-                    FLUSH PRIVILEGES;") 
+            $dbh->exec("SET NAMES 'utf8';"); // for the hebrew presentation
+            $dbh->exec("CREATE DATABASE  IF NOT EXISTS `$this->dbName`  
+                        DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+                        CREATE USER '$this->user'@'localhost' IDENTIFIED BY '$this->password';
+                        GRANT ALL ON `$this->dbName`.* TO '$this->user'@'localhost';
+                        FLUSH PRIVILEGES;") 
             or die(print_r($dbh->errorInfo(), true));
            
             // set db time zone           
-            $offset = $this->getCurTimeZoneForMySql();
-                     
+            $offset = $this->getCurTimeZoneForMySql();         
             $dbh->exec("SET time_zone='$offset';");
                         
-          
-            // // Create table directors
-
-            // $sqlCreateTbl = '
-            // CREATE table  IF NOT EXISTS `movies_project`.`directors`(
-            // id int(11) NOT NULL AUTO_INCREMENT,
-            // name varchar(50) NOT NULL,
-            // PRIMARY KEY (id)
-            // ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci';
-            
-    
-
-            // $dbh->exec($sqlCreateTbl);
-
-            // // Create table movies
-          
-            // $sqlCreateTbl = '
-            // CREATE table  IF NOT EXISTS `movies_project`.`movies`(
-            // id int(11) NOT NULL AUTO_INCREMENT,
-            // name varchar(50) NOT NULL,
-            // d_id int(11) NOT NULL,
-            // PRIMARY KEY (id),
-            // CONSTRAINT movie_dir_id FOREIGN KEY (d_id)
-            // REFERENCES `movies_project`.`directors` (id)
-            // ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci';
-                                                                                                                                                                                
-
-            // $dbh->exec($sqlCreateTbl);                                                                  
-
-            
-            // $sqlCreateTbl = "INSERT INTO `movies_project`.`directors` (`id`, `name`) VALUES (NULL, 'רמה בורשטין'), (NULL, 'גידי דר')";
-            // $dbh->exec($sqlCreateTbl);
-           
-            // $sqlCreateTbl = "INSERT INTO `movies_project`.`movies` (`id`, `name`, `d_id`) VALUES (NULL, 'אושפיזין', 2), (NULL, 'לעבור את הקיר', 1)";
-            // $dbh->exec($sqlCreateTbl);
-           
+            /*
+            TODO: add generic tbl creation
+            */
+                      
             return $dbh;
     
-        } catch (PDOException $e) 
-        {
-            die("DB ERROR: ". $e->getMessage());
+        }catch (PDOException $e){
+            echo "CREATE DATABASE: " .  $this->dbName . " failed.<br>".$e->getMessage();
+        }catch (Exception $e){
+            echo "General Error: CREATE DATABASE: " .  $this->dbName . " failed.<br>".$e->getMessage();
         }
 
+    }
+
+    // runQuery: prepare and execute sql query
+
+    public function runQuery( $sqlQuery, $arrParams=null )
+    {
+        try
+        {
+            $dbh = $this->getDbConnection();
+            if($dbh)
+            {
+                $statement = $dbh->prepare( $sqlQuery );
+                if($statement)
+                {
+                    if(  ! $statement->execute($arrParams) )
+                    {
+                        die(print_r('pdo->prepare->execute failed'.$sqlQuery , true));
+                    }
+
+                    return $statement;
+                }
+            }
+        }catch (PDOException $e)
+        {
+            echo "DB ERROR: runQuery: (prepare and execute) failed.".$sqlQuery."<br>".$e->getMessage();
+        }catch (Exception $e)
+        {
+            echo "General Error: runQuery: (prepare and execute) failed.".$sqlQuery."<br>".$e->getMessage();
+        }
     }
 
     private function getCurTimeZoneForMySql()
@@ -163,45 +160,12 @@ class Connection
 
     
 
-    public function getDbConnection()
+    private function getDbConnection()
     {
         if( $this->dbConnection == null)        
             $this->connect();
         
-
         return $this->dbConnection;
     }
-
-    public function runQuery( $sqlQuery, $arrParams=null )
-    {
-        try
-        {
-            $dbh = $this->getDbConnection();
-            if($dbh)
-            {
-                $statement = $dbh->prepare( $sqlQuery );
-                if($statement)
-                {
-                    if(  ! $statement->execute($arrParams) )
-                    {
-                        die(print_r('pdo->prepare->execute failed' , true));
-                        
-                    }
-                    return $statement;
-
-                }
-            }
-            
-        
-        }catch( PDOException $e) 
-        {
-            die(print_r($this->dbConnection->errorInfo(), true));
-            
-        }
-    }
 }
-
-
-
-
 ?>

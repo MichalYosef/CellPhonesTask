@@ -1,7 +1,9 @@
 <?php
-set_include_path('.;C:\xampp\htdocs\MICHAL-PHP\new-‏‏end-to-end-movies-project');
-require_once 'directorApi.php';
-require_once 'movieApi.php';
+
+require_once 'ManufecturerApi.php';
+require_once 'PhoneApi.php';
+require_once '../Common/App.php';
+require_once '../Common/Connection.php';
 require_once 'Params.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD']; 
@@ -34,21 +36,23 @@ if($params=="")
 
 $objType = $_REQUEST['objectType'];
 
+$myApp = new App();
+$dbCon = new Connection( $myApp->getDbName() );
+
 switch ($objType) {
     
-        case 'director':
-            $apiObj = new DirectorApi();
+        case 'manufacturer':
+            $apiObj = new ManufecturerApi($dbCon);
             break;
 
-        case 'movie':
-            $apiObj = new MoviesApi();
+        case 'phone':
+            $apiObj = new PhoneApi($dbCon);
             break;
 }
 
-// $dbHandler = new Connection( "movies_project" ); /* sending dbHandle from outside 
-//                                                    acording to DI rules*/
+
 $result  = $apiObj->handleClientRequests( $requestMethod, $params );
-//echo json_encode($result);
+//echo json_encode( $result);
 
 
 ?>

@@ -1,10 +1,11 @@
 <?php
 
-abstract class IModel
+abstract class IModel implements JsonSerializable
 {
     
     abstract function getDataModel() ;
 
+   
 }
 
 

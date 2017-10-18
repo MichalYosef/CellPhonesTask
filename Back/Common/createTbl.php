@@ -30,3 +30,5 @@ function createHtmlTblByPdoResult( $result )
 
     echo ('</table>');
 }
+
+

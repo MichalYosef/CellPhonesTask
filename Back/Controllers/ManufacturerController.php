@@ -10,8 +10,14 @@ class ManufacturerController extends IController
       
     public function __construct( $dbHandler, $manufacturerObj=null )
     {
+        $dbCon = $dbHandler ;
+        if(!$dbCon)
+        {
+            $myApp = new App();
+            $dbCon = new Connection( $myApp->getDbName() );
+        }   
       
-        parent::__construct( $dbHandler, "manufacturers", "ManufacturerModel" );
+        parent::__construct( $dbCon, "manufacturers", "ManufacturerModel" );
         $this->manufacturerObj = $manufacturerObj;
     }
 }
