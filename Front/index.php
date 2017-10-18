@@ -51,13 +51,31 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                                 <input type="text" class="form-control" id="name" placeholder="Enter model / Name here...">
                             </div>
                             <!--  Input field for phone image  -->
-                            <div class="form-group file-loading">
-                                    <label for="inputImgFile">Add Phone image</label>
+                            
+                            <!--<div class="form-group file-loading">-->
+                                 <!--<label for="inputImgFile">Add Phone image</label>-->
                                  <!--   <input id="inputImgFile" name="inputImgFile[]" multiple type="file">-->
-                                 <input id="sortpicture" type="file" name="sortpic" />
+                            <!--     <input id="sortpicture" type="file" name="sortpic" />
+                            </div>-->
+                            
+<!--                            <div id="kartik-file-errors"></div>-->
+
+                           <hr>
+                            <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+                                <div id="image_preview"><img id="previewing" src="images/noimage.png" />
+                                </div>
+                                <hr id="line">
+                                <div id="selectImage">
+                                    <label>Select Your Image</label><br/>
+                                    <input type="file" name="file" id="file" required />
+                                    <input type="submit" value="Upload" class="submit" />
+                                </div>
+                            </form>
                             </div>
-                            <div id="kartik-file-errors"></div>
-                           <!-- manufecturers list to choose from-->
+                            <h4 id='loading' >loading..</h4>
+                            <div id="message"></div>
+
+                            <!-- manufecturers list to choose from-->
                             <div class="form-group">
                                 <label for="manuSelectEl">Manufecturer</label>
                                 <select id="manuSelectEl">
@@ -83,7 +101,7 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                         <th>Name</th>
                         <th>Image</th>
                         <th>Manufacturer</th>
-                      <!--<th>Active</th>-->
+                    
                     </tr>
                 </thead>
 
@@ -93,7 +111,7 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                         <th>Name</th>
                         <th>Image</th>
                         <th>Manufacturer</th>
-                    <!--<th>Active</th>-->
+                    
                     </tr>
                 </tfoot>
                 <tbody>
@@ -113,7 +131,6 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
-
                 </tbody>
             </table>
         </div>
@@ -122,6 +139,8 @@ $allPhones = $phonesCtrl->getAllWithManuName();
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>    
         <script src="js/main.js"></script>
+       
+        
         </div>
     </body>
 </html>

@@ -29,12 +29,9 @@ $('#create').on('shown.bs.modal', function (e)
                 opt.text = value.name;
                 opt.value = value.name;
                 opt.setAttribute("name", value.id);
-                /*
-                data-foo="dogs"
-                */
+                
                 mySelect.options.add(opt);
-           });
-            
+           }); 
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
@@ -51,15 +48,35 @@ $('#btnCreate').click(function(){
 
 function createNewPhone()
 {
-    /*
- <!--   id="name" 
-  id="inputImgFile"
-  id="manuSelectEl"
-    */
     let name = $("#create #name").val().trim();
     let manuId = $('#manuSelectEl option:selected').attr("name");
-    loadImg();
+    //loadImg();
+    ////////////
+    var img = $('input[name="file"]').get(0).files[0];
+    var formData = new FormData();
+    formData.append('img', img);
+    /*formData.append('name', name);
+    formData.append('manufacturer_id', manuId);*/
     
+    $.ajax({
+      type: "POST",
+      url: '../Back/API/API.php',
+      data: {   objectType: 'phone', 
+                img : JSON.stringify( formData),
+                params :{   
+                            'name' : name,
+                            'manufacturer_id' : manuId
+                        }},
+      /*contentType: false,
+      processData: false,
+      cache: false,*/
+      complete: function(data) {
+        alert("success");
+      }
+    });
+
+    /////////////
+    /*
     $.ajax({
         type: "POST",
         url: '../Back/API/API.php',
@@ -81,9 +98,9 @@ function createNewPhone()
         }).done(function(response)
         {
             
-        });
+        });*/
 }
-
+/*
 function loadImg()
 {
     var file_data = $('#sortpicture').prop('files')[0];   
@@ -103,5 +120,5 @@ function loadImg()
                 }
      });
 }
-
+*/
 

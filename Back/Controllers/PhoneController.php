@@ -3,7 +3,7 @@ set_include_path('.;');
 
 require_once "IController.php";
 require_once "ManufacturerController.php";
-
+//require_once 'ajax_php_file.php';
 
 class PhoneController extends IController
 {
@@ -24,6 +24,7 @@ class PhoneController extends IController
 
     public function Create( $modelObj )
     {
+        loadImage();
         //Check if manufacturer id exist
         $manCtrl = new ManufacturerController($this->getDbHandler());
         if( $manCtrl->getById($modelObj['manufacturer_id']))
@@ -54,6 +55,13 @@ class PhoneController extends IController
 
         
     }
+}
+
+function loadImage()
+{
+    $sourcePath = $_FILES['file']['tmp_name'];       // Storing source path of the file in a variable
+    $targetPath = $myApp->getImgPath().$_FILES['file']['name']; // Target path where file is to be stored
+    move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
 }
 
 ?>

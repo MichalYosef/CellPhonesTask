@@ -6,6 +6,7 @@ require_once '../Common/App.php';
 require_once '../Common/Connection.php';
 require_once 'Params.php';
 
+
 $requestMethod = $_SERVER['REQUEST_METHOD']; 
 $apiObj;
 
@@ -48,6 +49,7 @@ switch ($objType) {
         case 'phone':
             $apiObj = new PhoneApi($dbCon);
             break;
+            
 }
 
 
