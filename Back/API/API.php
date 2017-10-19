@@ -9,6 +9,7 @@ require_once 'Params.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD']; 
 $apiObj;
+$params = array();
 
 if($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE') 
 {
@@ -22,20 +23,42 @@ else
     {
         $post = $_POST;
         var_dump($_POST);
+
+        
+    }
+
+    if( isset($_REQUEST['params']))
+    {
+        $params = $_REQUEST['params'];
+        
+       
+    }
+    else
+    {
+        if( isset( $_FILES['img']))
+        {
+            $img = $_FILES['img'];
+        }
+        else
+        {
+            $img = "none";
+        }
+        
+        $params = [ 'name' => $_POST['phone_name'],
+                    'manufacturer_id' => $_POST['manufacturer_id'],
+                    'img' => $_FILES['img']];
+      
+    
+
     }
     
-    $params = $_REQUEST['params'];
+    
 }
 
-if($params=="")
+if( isset($_REQUEST['objectType']))
 {
-    $params = array();
+    $objType = $_REQUEST['objectType'];
 }
-//print_r($params);
-
-//$requestParams = new Params();
-
-$objType = $_REQUEST['objectType'];
 
 $myApp = new App();
 $dbCon = new Connection( $myApp->getDbName() );
@@ -48,6 +71,8 @@ switch ($objType) {
 
         case 'phone':
             $apiObj = new PhoneApi($dbCon);
+           
+            
             break;
             
 }

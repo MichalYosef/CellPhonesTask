@@ -3,7 +3,7 @@ set_include_path('.;');
 
 require_once "IController.php";
 require_once "ManufacturerController.php";
-//require_once 'ajax_php_file.php';
+//require_once '../Common/App.php';
 
 class PhoneController extends IController
 {
@@ -22,15 +22,22 @@ class PhoneController extends IController
         $this->phoneObj = $phoneObj;
     }
 
-    public function Create( $modelObj )
+    public function Create( $params )
     {
-        loadImage();
+        if( $params['img'] != "none")
+        {
+            loadImage($params['img']);
+            $params['img_name'] = $params['img']['name'];
+        }
+       
+        unset($params['img']);
+        
         //Check if manufacturer id exist
         $manCtrl = new ManufacturerController($this->getDbHandler());
-        if( $manCtrl->getById($modelObj['manufacturer_id']))
+        if( $manCtrl->getById($params['manufacturer_id']))
         {
             //insert
-            return parent::Create( $modelObj );
+            return parent::Create( $params );
         }
         else //Can not insert Pohne where manufacturer id doesnt exist
         {
@@ -57,10 +64,12 @@ class PhoneController extends IController
     }
 }
 
-function loadImage()
+function loadImage($img)
 {
-    $sourcePath = $_FILES['file']['tmp_name'];       // Storing source path of the file in a variable
-    $targetPath = $myApp->getImgPath().$_FILES['file']['name']; // Target path where file is to be stored
+
+    $sourcePath = $img['tmp_name'];       // Storing source path of the file in a variable
+    $targetPath = '../../Front/images/'.$img['name']; // Target path where file is to be stored
+    //$targetPath = $img['name']; // Target path where file is to be stored
     move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
 }
 

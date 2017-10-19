@@ -6,7 +6,8 @@ $(document).ready(function() {
  
 $('#create').on('shown.bs.modal', function (e) 
 {
-    // load manufacturer list from the server into select element on newPhoneForm load
+    /* load manufacturer list from the server into select element on 
+    newPhoneForm load */
 
     $.ajax({
         type: "GET",
@@ -55,70 +56,22 @@ function createNewPhone()
     var img = $('input[name="file"]').get(0).files[0];
     var formData = new FormData();
     formData.append('img', img);
-    /*formData.append('name', name);
-    formData.append('manufacturer_id', manuId);*/
+    
+    formData.append('phone_name', name);
+    formData.append('manufacturer_id', manuId);
+    formData.append('objectType', 'phone');
     
     $.ajax({
       type: "POST",
       url: '../Back/API/API.php',
-      data: {   objectType: 'phone', 
-                img : JSON.stringify( formData),
-                params :{   
-                            'name' : name,
-                            'manufacturer_id' : manuId
-                        }},
-      /*contentType: false,
+      data:   formData,
+      contentType: false,
       processData: false,
-      cache: false,*/
+      cache: false,
       complete: function(data) {
-        alert("success");
+      //  alert("success");
       }
     });
 
-    /////////////
-    /*
-    $.ajax({
-        type: "POST",
-        url: '../Back/API/API.php',
-        data: 
-        { 
-            objectType: 'phone' ,
-            params: {   'name' : name,
-                        'manufacturer_id' : manuId}
-        },
-        async: false,
-        success: function(response)
-        {
-            $('#phonesTbl').dataTable();
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            
-        }   
-        }).done(function(response)
-        {
-            
-        });*/
+   
 }
-/*
-function loadImg()
-{
-    var file_data = $('#sortpicture').prop('files')[0];   
-    var form_data = new FormData();                  
-    form_data.append('file', file_data);
-    alert(form_data);                             
-    $.ajax({
-                url: 'uploadImg.php', // point to server-side PHP script 
-                dataType: 'text',  // what to expect back from the PHP script, if anything
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,                         
-                type: 'post',
-                success: function(php_script_response){
-                    alert(php_script_response); // display response from the PHP script, if any
-                }
-     });
-}
-*/
-

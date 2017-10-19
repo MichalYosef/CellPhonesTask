@@ -68,7 +68,6 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                                 <div id="selectImage">
                                     <label>Select Your Image</label><br/>
                                     <input type="file" name="file" id="file" required />
-                                    <input type="submit" value="Upload" class="submit" />
                                 </div>
                             </form>
                             </div>
