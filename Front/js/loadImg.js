@@ -1,3 +1,4 @@
+/*
 $(document).ready(function (e) 
 {
     $("#uploadimage").on('submit',(function(e) 
@@ -53,4 +54,4 @@ $(document).ready(function (e)
             $('#previewing').attr('width', '250px');
             $('#previewing').attr('height', '230px');
             };
-});
+});*/

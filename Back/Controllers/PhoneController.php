@@ -24,7 +24,14 @@ class PhoneController extends IController
 
     public function Create( $params )
     {
-        if( $params['img'] != "none")
+        /*
+        //TODO: check if exist or empty name
+        if( !$this->ceckIfExistOrEmpty($params['name']))
+        {
+            return false;
+        }
+*/
+        if( array_key_exists ( 'img' ,$params))
         {
             loadImage($params['img']);
             $params['img_name'] = $params['img']['name'];
@@ -48,28 +55,16 @@ class PhoneController extends IController
 
     public function getAllWithManuName()
     {
-        /*
-        runQuery( $sqlQuery, $arrParams=null )
-        
-        $statement = $dbh->prepare( $sqlQuery );
-         $statement->execute($arrParams)
-
-        */
-        
+       // get all phones with manufecturer names  using inner join
         $query = "SELECT phones.id as phone_id, phones.name as phone_name, phones.img_name as img_name, manufacturers.name as manu_name FROM phones inner join manufacturers on phones.manufacturer_id = manufacturers.id";
-        return $this->getDbHandler()->runQuery( $query );
-        
-
-        
+        return $this->getDbHandler()->runQuery( $query );       
     }
 }
 
 function loadImage($img)
 {
-
     $sourcePath = $img['tmp_name'];       // Storing source path of the file in a variable
     $targetPath = '../../Front/images/'.$img['name']; // Target path where file is to be stored
-    //$targetPath = $img['name']; // Target path where file is to be stored
     move_uploaded_file($sourcePath,$targetPath) ;    // Moving Uploaded file
 }
 

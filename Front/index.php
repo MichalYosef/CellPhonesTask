@@ -61,9 +61,10 @@ $allPhones = $phonesCtrl->getAllWithManuName();
 <!--                            <div id="kartik-file-errors"></div>-->
 
                            <hr>
-                            <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
-                                <div id="image_preview"><img id="previewing" src="images/noimage.png" />
-                                </div>
+                           <!-- <form id="uploadimage" action="" method="post" enctype="multipart/form-data">-->
+                           <form>
+                                <!-- <div id="image_preview"><img id="previewing" src="images/noimage.png" />
+                                </div> -->
                                 <hr id="line">
                                 <div id="selectImage">
                                     <label>Select Your Image</label><br/>
@@ -71,8 +72,8 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                                 </div>
                             </form>
                             </div>
-                            <h4 id='loading' >loading..</h4>
-                            <div id="message"></div>
+                            <!-- <h4 id='loading' >loading..</h4>
+                            <div id="message"></div> -->
 
                             <!-- manufecturers list to choose from-->
                             <div class="form-group">

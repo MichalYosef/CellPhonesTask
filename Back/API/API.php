@@ -19,34 +19,33 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE'
 }
 else
 {
-    if($_SERVER['REQUEST_METHOD'] == 'POST') 
-    {
-        $post = $_POST;
-        var_dump($_POST);
-
-        
-    }
+    // if($_SERVER['REQUEST_METHOD'] == 'POST') 
+    // {
+    //     $post = $_POST;
+    //     var_dump($_POST);
+    // }
 
     if( isset($_REQUEST['params']))
     {
-        $params = $_REQUEST['params'];
-        
-       
+        $params = $_REQUEST['params'];   
     }
     else
     {
         if( isset( $_FILES['img']))
         {
             $img = $_FILES['img'];
+            $params = [ 'name' => $_POST['phone_name'],
+            'manufacturer_id' => $_POST['manufacturer_id'],
+            'img' => $_FILES['img']];
         }
         else
         {
             $img = "none";
+            $params = [ 'name' => $_POST['phone_name'],
+            'manufacturer_id' => $_POST['manufacturer_id']];
         }
         
-        $params = [ 'name' => $_POST['phone_name'],
-                    'manufacturer_id' => $_POST['manufacturer_id'],
-                    'img' => $_FILES['img']];
+        
       
     
 

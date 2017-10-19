@@ -45,22 +45,31 @@ $('#create').on('shown.bs.modal', function (e)
 
 $('#btnCreate').click(function(){
     createNewPhone();
+    $('#create').modal("hide");
 })
+
+$('#create').on('hidden.bs.modal', function () {
+    $(this).find("input,file,select").val('').end();
+
+});
 
 function createNewPhone()
 {
+    // load inputs: name and manufecturer id
     let name = $("#create #name").val().trim();
     let manuId = $('#manuSelectEl option:selected').attr("name");
-    //loadImg();
-    ////////////
+    
+    //load image file
     var img = $('input[name="file"]').get(0).files[0];
+        
+    // add all inputs into FormData object
     var formData = new FormData();
     formData.append('img', img);
-    
     formData.append('phone_name', name);
     formData.append('manufacturer_id', manuId);
     formData.append('objectType', 'phone');
     
+    // send all data to server using jquery ajax 
     $.ajax({
       type: "POST",
       url: '../Back/API/API.php',
@@ -73,5 +82,4 @@ function createNewPhone()
       }
     });
 
-   
 }
