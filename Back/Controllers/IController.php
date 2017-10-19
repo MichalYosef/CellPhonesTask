@@ -36,8 +36,6 @@ class IController
 
     public function Create( $modelObj) //Insert
     {
-        
-        //$model = $modelObj->jsonSerialize(); 
         $keyStr = "(";
         $valueStr = " VALUES(";
         
@@ -81,8 +79,6 @@ class IController
             {                
                 $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClassName , array('id', 'name'));
                 return $allObjArr;
-                // $tmp = $allObjArr[0]->jsonSerialize() ;
-                // return json_encode( $tmp);
             }
             else
             {
@@ -132,9 +128,6 @@ class IController
                 {
                     return $statement;
                 }
-            //   //  return  $statement;             
-            //      $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE , $this->modelClassName );
-            //      return $allObjArr;
             }
             else
             {
@@ -158,9 +151,7 @@ class IController
     public function Update( $modelObj )
     {
         $sqlQuery = "UPDATE `" . $this->tblName . "` SET ";
-
-        //$model = $modelObj->jsonSerialize(); 
-
+    
         foreach( $modelObj as $key => $value ) 
         {
             if( $key != "id")

@@ -3,7 +3,7 @@ set_include_path('.;');
 
 require_once "IController.php";
 require_once "ManufacturerController.php";
-//require_once '../Common/App.php';
+
 
 class PhoneController extends IController
 {

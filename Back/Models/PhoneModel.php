@@ -3,7 +3,6 @@ include_once "IModel.php";
 
 class PhoneModel extends IModel
 {
-
     private $id;
     private $name;
     private $img_name; 
@@ -15,12 +14,10 @@ class PhoneModel extends IModel
         $this->name = $name;
         $this->manufacturer_id = $manufacturer_id ;
         $this->img_name = $img_name;
-
-       
     }
 
-    public function jsonSerialize() {
-        
+    public function jsonSerialize() 
+    {    
         return ["id" => $this->id,
                 "name" => $this->name,
                 "img_name" => $this->img_name,

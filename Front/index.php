@@ -19,9 +19,10 @@ $allPhones = $phonesCtrl->getAllWithManuName();
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="phones.css"/>
         <title>Cell Phones - Class Task</title>
     </head>
-    <body>
+    <body class="frame">
         
         <!-- Header-->
         <header class="page-header">
@@ -50,16 +51,7 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                                 <label for="name">Phone model/Name</label>
                                 <input type="text" class="form-control" id="name" placeholder="Enter model / Name here...">
                             </div>
-                            <!--  Input field for phone image  -->
-                            
-                            <!--<div class="form-group file-loading">-->
-                                 <!--<label for="inputImgFile">Add Phone image</label>-->
-                                 <!--   <input id="inputImgFile" name="inputImgFile[]" multiple type="file">-->
-                            <!--     <input id="sortpicture" type="file" name="sortpic" />
-                            </div>-->
-                            
-<!--                            <div id="kartik-file-errors"></div>-->
-
+                           
                            <hr>
                            <!-- <form id="uploadimage" action="" method="post" enctype="multipart/form-data">-->
                            <form>
@@ -72,9 +64,7 @@ $allPhones = $phonesCtrl->getAllWithManuName();
                                 </div>
                             </form>
                             </div>
-                            <!-- <h4 id='loading' >loading..</h4>
-                            <div id="message"></div> -->
-
+                           
                             <!-- manufecturers list to choose from-->
                             <div class="form-group">
                                 <label for="manuSelectEl">Manufecturer</label>

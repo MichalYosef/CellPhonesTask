@@ -10,8 +10,6 @@
 
         public function handleClientRequests(  $method, $params ) 
         {
-            // $this->setdbHandler( $dbHandler );
-
             switch ( $method ) 
             {
                 case "POST":

@@ -14,7 +14,6 @@ class ManufacturerModel extends IModel
     {
         $this->id = $id;
         $this->name = $name;
-       
     }
 
     public function jsonSerialize() {

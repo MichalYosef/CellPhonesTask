@@ -19,12 +19,6 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE'
 }
 else
 {
-    // if($_SERVER['REQUEST_METHOD'] == 'POST') 
-    // {
-    //     $post = $_POST;
-    //     var_dump($_POST);
-    // }
-
     if( isset($_REQUEST['params']))
     {
         $params = $_REQUEST['params'];   
@@ -44,14 +38,7 @@ else
             $params = [ 'name' => $_POST['phone_name'],
             'manufacturer_id' => $_POST['manufacturer_id']];
         }
-        
-        
-      
-    
-
     }
-    
-    
 }
 
 if( isset($_REQUEST['objectType']))
@@ -62,23 +49,20 @@ if( isset($_REQUEST['objectType']))
 $myApp = new App();
 $dbCon = new Connection( $myApp->getDbName() );
 
-switch ($objType) {
-    
-        case 'manufacturer':
-            $apiObj = new ManufecturerApi($dbCon);
-            break;
+switch ($objType) 
+{    
+    case 'manufacturer':
+        $apiObj = new ManufecturerApi($dbCon);
+        break;
 
-        case 'phone':
-            $apiObj = new PhoneApi($dbCon);
-           
-            
-            break;
-            
+    case 'phone':
+        $apiObj = new PhoneApi($dbCon);       
+        break;
+        
 }
 
 
 $result  = $apiObj->handleClientRequests( $requestMethod, $params );
 //echo json_encode( $result);
-
 
 ?>
