@@ -3,7 +3,7 @@
   border-color: turquoise;
   border-width: 35px;
   min-height: 100vh;
-  animation: myFadeIn 10s ;
+  animation: myFadeIn 7s ;
   margin: 0px;
 }
 @keyframes myFadeIn {
@@ -13,4 +13,19 @@
   to {
     opacity: 1;
   }
+}
+.jumbotron {
+  background-image: url("../images/jumboBackground.jpeg");
+  background-size: cover;
+  font-weight: 800;
+  font-size: 250%;
+  color: #C0C0C0;
+}
+.jumbotron a {
+  color: #5F021F;
+}
+#phonesTbl {
+  border-style: ridge;
+  border-color: #006994;
+  border-width: 15px;
 }

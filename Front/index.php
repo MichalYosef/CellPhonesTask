@@ -20,20 +20,43 @@ $allPhones = $phonesCtrl->getAllWithManuName();
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="cssLess/phones.css"/>
-        <title>Cell Phones - Class Task</title>
+        <title>CellPhones Task - Code refactoring</title>
     </head>
     <body class="frame">
         
         <!-- Header-->
         <header class="page-header">
-            <h4 class="jumbotron text-center">Cell Phones - Class Task</h4>
+            <h4 class="jumbotron text-center">CellPhones Task <a href="https://en.wikipedia.org/wiki/Code_refactoring" target="_blank">Code refactoring</a></h4>
         </header>
-        
+        <!--
+ <form>
+            <fieldset>
+                <legend>Get:</legend>
+                <select class="form-control" id="getAllOrById" name="getAllOrById">
+                    <option value="getAll">Get All</option>
+                    <option value="getById">Get by ID</option>
+                </select>
+
+                <label for="idInput">ID:</label>
+                    <input class="form-control input-sm" type="number" id="idInput" min="0">
+                    <button id="submit" value="get" type="button" class="btn btn-primary  btn-space form-control">Get!</button>
+                </div> 
+            </fieldset>
+        </form>
+
+-->
         <!--button to create new phone-->
-        <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary center-block">
-            Add new phone
-            <span class="glyphicon glyphicon-plus-sign">
-        </button>
+        <fieldset>
+            <legend>
+                <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary center-block">
+                    Add new phone
+                    <span class="glyphicon glyphicon-plus-sign">
+                </button>
+            </legend>
+            
+            
+        </fieldset>
+        
 
           <!-- Modal -->
         <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="create">
