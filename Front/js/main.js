@@ -4,11 +4,12 @@ $(document).ready(function() {
 });
 
  
+/* load manufacturers list from the server into dropdown select element 
+    on create new phone modal load 
+*/
 $('#create').on('shown.bs.modal', function (e) 
 {
-    /* load manufacturer list from the server into select element on 
-    newPhoneForm load */
-
+    // get manufacturers list from the server via jquery ajax GET request
     $.ajax({
         type: "GET",
         url: '../Back/API/API.php' ,
@@ -16,21 +17,24 @@ $('#create').on('shown.bs.modal', function (e)
         data: 
         { 
             objectType: 'manufacturer' ,
-            params: { id: -1}
+            params: { id: -1} // -1 to inform that no params are sent
         },
         success: function(returnedData)
         {
-            console.log(  returnedData );
-            
             // add manufecturers to select input element
-            $.each(returnedData, function(key, value) {   
-
+            $.each(returnedData, function(key, value) 
+            {   
+                // get the select element by id
                 let mySelect = document.getElementById("manuSelectEl");
-                let opt = document.createElement("option");
-                opt.text = value.name;
-                opt.value = value.name;
-                opt.setAttribute("name", value.id);
                 
+                // create select option object
+                let opt = document.createElement("option");
+
+                // add relevant values to the select object
+                opt.text = value.name; // the shown text
+                //opt.value = value.name; // 
+                opt.setAttribute("name", value.id); // keeping manufecturer id 
+                // adding current option to the dropdown select element
                 mySelect.options.add(opt);
            }); 
         },
@@ -43,12 +47,20 @@ $('#create').on('shown.bs.modal', function (e)
     }); //end of $.ajax
 })
 
+// on button create's click  - send create phone to the server
 $('#btnCreate').click(function(){
     createNewPhone();
+    
+    // close modal that was opened to get new pone's input
     $('#create').modal("hide");
+    
+    // reload phones data into datatable
+    $('#phonesTbl').dataTable(); 
 })
 
-$('#create').on('hidden.bs.modal', function () {
+// when modal is hidden (closed) clean input fields
+$('#create').on('hidden.bs.modal', function () 
+{
     $(this).find("input,file,select").val('').end();
 
 });

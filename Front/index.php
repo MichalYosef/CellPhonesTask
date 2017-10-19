@@ -26,13 +26,13 @@ $allPhones = $phonesCtrl->getAllWithManuName();
         
         <!-- Header-->
         <header class="page-header">
-            <h3 class="jumbotron text-center">Cell Phones - Class Task</h3>
+            <h4 class="jumbotron text-center">Cell Phones - Class Task</h4>
         </header>
         
         <!--button to create new phone-->
         <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary center-block">
-   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
-            Add new phone<span class="glyphicon glyphicon-plus-sign">
+            Add new phone
+            <span class="glyphicon glyphicon-plus-sign">
         </button>
 
           <!-- Modal -->

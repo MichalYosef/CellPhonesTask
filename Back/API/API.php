@@ -4,7 +4,7 @@ require_once 'ManufecturerApi.php';
 require_once 'PhoneApi.php';
 require_once '../Common/App.php';
 require_once '../Common/Connection.php';
-require_once 'Params.php';
+
 
 
 $requestMethod = $_SERVER['REQUEST_METHOD']; 
