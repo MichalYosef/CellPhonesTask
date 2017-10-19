@@ -19,7 +19,7 @@ $allPhones = $phonesCtrl->getAllWithManuName();
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
         <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="phones.css"/>
+        <link rel="stylesheet" href="cssLess/phones.css"/>
         <title>Cell Phones - Class Task</title>
     </head>
     <body class="frame">
