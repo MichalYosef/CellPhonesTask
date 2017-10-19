@@ -29,7 +29,6 @@ $allPhones = $phonesCtrl->getAllWithManuName();
             <h3 class="jumbotron text-center">Cell Phones - Class Task</h3>
         </header>
         
-        
         <!--button to create new phone-->
         <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary center-block">
    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">-->
